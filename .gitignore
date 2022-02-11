@@ -36,7 +36,13 @@ suppa/
 *.gtf.gz.tbi
 *.fa
 *.fa.fai
-*.fasta
+*.fasta.pdb
+*.fasta.phr
+*.fasta.pin
+*.fasta.pot
+*.fasta.psq
+*.fasta.ptf
+*.fasta.pto
 *.fasta.pickle
 *.fasta.fai
 *.bam
