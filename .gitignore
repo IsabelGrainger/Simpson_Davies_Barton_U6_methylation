@@ -50,7 +50,6 @@ suppa/
 *.tsv
 *.xml
 *.xlsx
-*.svg
 
 # scripts
 minimap2/
@@ -64,6 +63,7 @@ TranSuite/
 # snakemake
 .snakemake/
 snakejob.*
+.snakemake_timestamp
 
 # STAR logs
 Log.out
@@ -145,6 +145,7 @@ target/
 
 # Jupyter Notebook
 .ipynb_checkpoints
+.ipynb_checkpoints/
 
 # IPython
 profile_default/
