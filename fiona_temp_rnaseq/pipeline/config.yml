@@ -1,0 +1,33 @@
+genome_fasta_fn: ../annotations/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa
+annot_gtf_fn: ../annotations/Araport11_GFF3_genes_transposons.201606.no_chr.gtf
+transcriptome_fasta_fn: 
+  - ../annotations/Araport11_genes.201606.cdna.fasta
+  - ../annotations/Araport11_non_coding.201606.cdna.fasta
+proteome_fasta_fn: ../annotations/Araport11_genes.201606.pep.repr.fasta 
+fastq_screen_genomes:
+  athaliana: ../annotations/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa
+  hsapiens: ../annotations/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa
+  at_rrna: ../annotations/arath_rrna.fa
+  ecoli: ../annotations/ecoli_k12_mg1655.fa
+  
+suppa_comparisons:
+  - 'col0_04c_vs_col0_20c'
+  - 'col0_12c_vs_col0_20c'
+  - 'col0_28c_vs_col0_20c'
+  - 'fio1_04c_vs_fio1_20c'
+  - 'fio1_12c_vs_fio1_20c'
+  - 'fio1_28c_vs_fio1_20c'
+  - 'fio1_04c_vs_col0_04c'
+  - 'fio1_12c_vs_col0_12c'
+  - 'fio1_20c_vs_col0_20c'
+  - 'fio1_28c_vs_col0_28c'
+  
+gene_tracks:
+  - 'AT5G65050' # MAF2
+  - 'AT1G77080' # FLM
+  - 'AT5G65060' # MAF3
+  - 'AT1G33410' # AtSAR1
+  - 'AT4G09980' # MTB
+  - 'AT3G04910' # WNK1
+  - 'AT3G01150' # PTB1
+  - 'AT1G01060' # LHY

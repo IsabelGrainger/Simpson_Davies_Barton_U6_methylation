@@ -1,0 +1,25 @@
+transcriptome_fasta_fn: "../annotations/Araport11_genes.201606.cdna.fasta"
+genome_fasta_fn: "../annotations/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa"
+gtf_fn: '../annotations/Araport11_GFF3_genes_transposons.201606.no_chr.gtf'
+
+flowcell: 'FLO-MIN106'
+kit: 'SQK-RNA002'
+
+minimap2_parameters:
+  max_intron_size: 20000
+
+# APA PARAMETERS:
+
+d3pendr_parameters:
+  min_read_overlap: 0.2
+  nboots: 999
+  use_gamma_model: True
+  test_homogeneity: False
+  
+# MODIFICATION PARAMETERS:
+
+expected_motif: NNANN
+
+comparisons:
+  - fio1_vs_col0
+  - fip37_vs_col0

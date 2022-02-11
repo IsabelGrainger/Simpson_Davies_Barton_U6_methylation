@@ -1,0 +1,34 @@
+import os
+
+configfile: 'config.yaml'
+include: '../rules/basecalling.snakefile'
+include: '../rules/mapping.snakefile'
+include: '../rules/nanopolish.snakefile'
+include: '../rules/modifications.snakefile'
+include: '../rules/apa.snakefile'
+
+sample_names = glob_wildcards('raw_data/{sample_name}/').sample_name
+conds = set([sn.rsplit('_', 1)[0] for sn in sample_names])
+
+
+wildcard_constraints:
+    sample_name="\w+",
+    cond="\w+",
+    comp="\w+",
+    ref_type="\w+"
+
+
+rule all:
+    input:
+        expand(
+            ['{mod_method}/{comp}.bed',
+             '{mod_method}/motif_detection/{comp}.motifs.bed',
+             'apa_results/{comp}.apa_results.bed'],
+             comp=config['comparisons'],
+            mod_method=['differr', 'yanocomp']
+        ),
+        expand(
+            'aligned_data/pooled/{cond}.{ref_type}.bam',
+            cond=conds,
+            ref_type=['genome', 'transcriptome']
+        )

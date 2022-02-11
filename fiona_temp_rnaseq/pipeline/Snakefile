@@ -1,0 +1,94 @@
+configfile: 'config.yml'
+
+
+subworkflow nanopore:
+    workdir:
+        '../../fiona_nanopore/pipeline'
+    configfile:
+        '../../fiona_nanopore/pipeline/config.yaml'
+
+
+include: '../rules/qc.snakefile'
+include: '../rules/quant.snakefile'
+include: '../rules/align.snakefile'
+include: '../rules/assemble.snakefile'
+include: '../rules/splicing.snakefile'
+
+
+SAMPLE_NAMES = glob_wildcards('raw_data/{sample_name}.1.fastq.gz').sample_name
+CONDS = set([sn.rsplit('_', 1)[0] for sn in SAMPLE_NAMES])
+
+
+rule qc:
+   input:
+       'qc/multiqc_report.html'
+
+
+rule align:
+   input:
+       expand(
+           ['aligned_data/{sample_name}.sorted.bam{bamtype}',
+            'aligned_data/{sample_name}.sjdb.tsv',
+            'aligned_data/{sample_name}.chimeric_aln.tsv'],
+           sample_name=SAMPLE_NAMES,
+           bamtype=['', '.bai', 'stats']
+       ),
+       expand(
+           'coverage_tracks/{cond}.{strand}.bw',
+           cond=CONDS,
+           strand=['fwd', 'rev']
+       )
+
+
+rule assemble:
+    input:
+       'assemblies/merged_stringtie_assembly.gtf',
+       'assemblies/merged_stringtie_assembly.orf.gtf'
+
+
+rule quant:
+    input:
+        expand(
+            ['quantification/{ref_type}/{sample_name}/quant.sf',
+             'quantification/{ref_type}/cpm.csv',
+             'quantification/{ref_type}/dge.csv',
+             'figures/dge/{ref_type}/pca.svg'],
+            ref_type=['ref', 'denovo'],
+            sample_name=SAMPLE_NAMES,
+        ),
+
+
+rule splicing:
+    input:
+        expand(
+            ['splicing/{ref_type}/{comp}_{event_type}.dpsi',
+             'annotations/suppa/{ref_type}/stringtie_assembly_{event_type}_friendly.tsv'],
+            ref_type=['ref', 'denovo'],
+            comp=config['suppa_comparisons'],
+            event_type=['SE', 'A3', 'A5', 'MX', 'RI', 'AF', 'AL']
+        ),
+        expand(
+            ['splicing/denovo/{comp}_NMD.dpsi'],
+            comp=config['suppa_comparisons']
+        ),
+        expand(
+            ['figures/splicing/{ref_type}/temp_event_types.svg',
+             'figures/splicing/{ref_type}/geno_event_types.svg',
+             'figures/splicing/{ref_type}/{event_type}_logos_and_heatmaps/'],
+            ref_type=['ref', 'denovo'],
+            event_type=['A5', 'SE', 'RI', 'A3']
+        ),
+        expand(
+            'figures/splicing/{ref_type}/gene_tracks/{gene_id}_gene_tracks',
+            ref_type=['ref', 'denovo'],
+            gene_id=config['gene_tracks']
+        )
+
+
+rule all:
+    input:
+        rules.qc.input,
+        rules.align.input,
+        rules.assemble.input,
+        rules.quant.input,
+        rules.splicing.input

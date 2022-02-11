@@ -1,0 +1,7 @@
+name: transuite
+channels:
+ - conda-forge
+ - bioconda
+dependencies:
+ - python
+ - biopython

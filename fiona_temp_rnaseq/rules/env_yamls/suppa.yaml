@@ -1,0 +1,6 @@
+name: suppa
+channels:
+ - conda-forge
+ - bioconda
+dependencies:
+ - suppa=2

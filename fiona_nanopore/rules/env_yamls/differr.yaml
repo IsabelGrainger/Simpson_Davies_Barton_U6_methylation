@@ -1,0 +1,15 @@
+name: differr
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - numpy
+  - scipy
+  - pandas
+  - statsmodels
+  - h5py
+  - joblib
+  - pysam
+  - click
+  - pip:
+     - -e /cluster/ggs_lab/mtparker/differr_nanopore_DRS/
