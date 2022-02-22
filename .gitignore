@@ -19,6 +19,8 @@ assemblies/
 quantification/
 qc/
 logs/
+annotations/
+annotations
 
 # annotation and files
 *_salmon_index/
