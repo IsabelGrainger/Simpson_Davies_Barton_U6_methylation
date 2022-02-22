@@ -1,0 +1,8 @@
+name: jupyter
+channels:
+  - conda-forge
+dependencies:
+  - python=3.6.7=h357f687_1006
+  - jupyter=1.0.0=py36h5fab9bb_6
+  - nb_conda_kernels=2.3.1=py36h5fab9bb_0
+  - jupyterlab_code_formatter=1.4.10=pyhd8ed1ab_1

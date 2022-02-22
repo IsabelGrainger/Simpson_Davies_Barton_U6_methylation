@@ -1,3 +1,5 @@
+import itertools as it
+
 def sample_name_subset(cond):
     sample_names = glob_wildcards('raw_data/{sample_name}').sample_name
     cond_sample_names = [sn for sn in sample_names if sn.startswith(cond)]
@@ -26,15 +28,15 @@ rule yanocomp_gmmtest:
     input:
         unpack(yanocomp_input),
     output:
-        bed='yanocomp/{comp,\w+}.bed',
-        smpreds='yanocomp/{comp}.smpreds.json.gz'
+        bed='yanocomp/{comp,\w+}.bed'
     params:
         comp_flag=get_comp_flag
     threads: 12
     conda:
         'env_yamls/yanocomp.yaml'
     resources:
-        job_class='long'
+        job_class='long',
+        hostname='c6[43]*'
     shell:
         '''
         CURRDIR=$(pwd)
@@ -43,61 +45,55 @@ rule yanocomp_gmmtest:
         yanocomp gmmtest \
           {params.comp_flag} \
           -p {threads} \
-          -o "${{CURRDIR}}/{output.bed}" \
-          -s "${{CURRDIR}}/{output.smpreds}"
-        '''
-
-
-def differr_input(wildcards):
-    return {
-        'cntrl_events': expand(
-            'aligned_data/{sample_name}.genome.bam',
-            sample_name=sample_name_subset(wildcards.cntrl)
-        ),
-        'treat_events': expand(
-            'aligned_data/{sample_name}.genome.bam',
-            sample_name=sample_name_subset(wildcards.treat)
-        )
-    }
-
-
-rule differr:
-    input:
-        unpack(differr_input),
-    output:
-        bed='differr/{treat,\w+}_vs_{cntrl,\w+}.bed'
-    params:
-        cntrl_flag=lambda wc, input: '-b ' + ' -b '.join(input.cntrl_events),
-        treat_flag=lambda wc, input: '-a ' + ' -a '.join(input.treat_events),
-        reference=os.path.abspath(config['genome_fasta_fn']),
-    threads: 48
-    conda:
-        'env_yamls/differr.yaml'
-    resources:
-        job_class='short'
-    shell:
-        '''
-        CURRDIR=$(pwd)
-        for BAM in {input}; do
-           cp --parents -L $BAM $TMPDIR
-           cp --parents -L "${{BAM}}.bai" $TMPDIR
-        done
-        cd $TMPDIR
-        differr \
-          {params.cntrl_flag} \
-          {params.treat_flag} \
-          -r {params.reference} \
-          -p {threads} \
           -o "${{CURRDIR}}/{output.bed}"
         '''
 
 
+def yanocomp_upsetplot_input(wc):
+    sites = expand(
+        'yanocomp/{comp}.bed',
+        comp=config.get('multicomp', [])
+    )
+    return {
+        'yanocomp_sites': sites,
+        'miclip_peaks': ancient(config['miclip_peaks']),
+        'gtf': ancient(config['gtf_fn']),
+        'fasta': ancient(config['genome_fasta_fn'])
+    }
+
+
+def get_multicomp_combinations():
+    multicomp = config.get('multicomp', [])
+    for mc in multicomp:
+        conds = mc.split('_vs_')
+        # assume last position is overall control
+        cntrl = conds[-1]
+        comps = [f'{c1}_vs_{c2}' for c1, c2 in it.combinations(conds, r=2)]
+        comps_difference = [f'{comp1}__not__{comp2}' for comp1, comp2 in it.permutations(comps, r=2)]
+        yield from comps + comps_difference
+
+
+rule generate_yanocomp_upsetplots:
+    input:
+        unpack(yanocomp_upsetplot_input)
+    output:
+        sites=[f'yanocomp/{comp}.posthoc.bed' for comp in get_multicomp_combinations()],
+        site_upset='figures/yanocomp/yanocomp_site_upset.svg',
+        site_effect_size='figures/yanocomp/yanocomp_site_effect_size.svg',
+    conda:
+        'env_yamls/nb_seqlogos.yaml'
+    log:
+        notebook='notebook_processed/yanocomp_upsetplots.py.ipynb'
+    notebook:
+        'notebook_templates/yanocomp_upsetplots.py.ipynb'
+
+
 rule motif_analysis:
     input:
-        '{method}/{cond}.bed'
+        'yanocomp/{cond}.posthoc.bed'
     output:
-        meme=directory('{method}/motif_detection/{cond}.meme'),
-        seqs='{method}/motif_detection/{cond}.seqs.fa'
+        meme=directory('yanocomp/motif_detection/{cond}.meme'),
+        seqs='yanocomp/motif_detection/{cond}.seqs.fa'
     params:
         fasta=config['genome_fasta_fn'],
         fai=config['genome_fasta_fn'] + '.fai',
@@ -145,11 +141,11 @@ def build_regex(wc):
 
 rule find_motifs:
     input:
-        seqs='{method}/motif_detection/{cond}.seqs.fa',
-        meme='{method}/motif_detection/{cond}.meme'
+        seqs='yanocomp/motif_detection/{cond}.seqs.fa',
+        meme='yanocomp/motif_detection/{cond}.meme'
     output:
-        fimo=directory('{method}/motif_detection/{cond}.fimo'),
-        motifs='{method}/motif_detection/{cond,\w+}.motifs.bed',
+        fimo=directory('yanocomp/motif_detection/{cond}.fimo'),
+        motifs='yanocomp/motif_detection/{cond,\w+}.motifs.bed',
     params:
         regex=build_regex
     conda:
@@ -185,3 +181,20 @@ rule find_motifs:
             }}' > {output.motifs}
             
         '''
+    
+
+rule generate_yanocomp_logos:
+    input:
+        sites='yanocomp/{comp}.posthoc.bed',
+        motifs='yanocomp/motif_detection/{comp}.motifs.bed',
+        gtf=ancient(config['gtf_fn']),
+        fasta=ancient(config['genome_fasta_fn'])
+    output:
+        logo_plot='figures/yanocomp/{comp}_yanocomp_motif_logo.svg',
+        distrib_plot='figures/yanocomp/{comp}_yanocomp_distrib_barplot.svg',
+    conda:
+        'env_yamls/nb_seqlogos.yaml'
+    log:
+        notebook='notebook_processed/{comp}_yanocomp_logos.py.ipynb'
+    notebook:
+        'notebook_templates/yanocomp_logos.py.ipynb'

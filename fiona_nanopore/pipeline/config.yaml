@@ -1,6 +1,7 @@
 transcriptome_fasta_fn: "../annotations/Araport11_genes.201606.cdna.fasta"
 genome_fasta_fn: "../annotations/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa"
 gtf_fn: '../annotations/Araport11_GFF3_genes_transposons.201606.no_chr.gtf'
+miclip_peaks: '../annotations/miclip_peaks.bed.gz'
 
 flowcell: 'FLO-MIN106'
 kit: 'SQK-RNA002'
@@ -18,8 +19,11 @@ d3pendr_parameters:
   
 # MODIFICATION PARAMETERS:
 
-expected_motif: NNANN
+expected_motif: 'NNANN'
 
 comparisons:
-  - fio1_vs_col0
-  - fip37_vs_col0
+  - 'fip37_vs_col0'
+  - 'fio1_vs_col0'
+
+multicomp:
+  - 'fip37_vs_fio1_vs_col0'

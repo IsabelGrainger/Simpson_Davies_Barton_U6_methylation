@@ -151,6 +151,7 @@ rule linear_model_psi:
         psi_fit='splicing/{ref_type}/psi_fit.csv',
         event_type_temp_plot='figures/splicing/{ref_type}/temp_event_types.svg',
         event_type_geno_plot='figures/splicing/{ref_type}/geno_event_types.svg',
+        gxt_ddpsi_histogram='figures/splicing/{ref_type}/gxt_ddpsi_histogram.svg'
     conda:
         'env_yamls/nb_statsmodels.yaml'
     threads: 16
@@ -165,7 +166,7 @@ rule generate_logos_and_heatmaps:
         psi_fit='splicing/{ref_type}/psi_fit.csv',
         genome_fasta_fn=ancient(config['genome_fasta_fn'])
     output:
-        splice_plots=directory('figures/splicing/{ref_type}/{event_type}_logos_and_heatmaps/')
+        splice_plots=directory('figures/splicing/{ref_type}/{event_type}_logos_and_heatmaps/'),
     conda:
         'env_yamls/nb_seqlogos.yaml'
     log:

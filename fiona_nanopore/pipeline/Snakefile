@@ -6,6 +6,7 @@ include: '../rules/mapping.snakefile'
 include: '../rules/nanopolish.snakefile'
 include: '../rules/modifications.snakefile'
 include: '../rules/apa.snakefile'
+include: '../rules/nb.snakefile'
 
 sample_names = glob_wildcards('raw_data/{sample_name}/').sample_name
 conds = set([sn.rsplit('_', 1)[0] for sn in sample_names])
@@ -18,17 +19,38 @@ wildcard_constraints:
     ref_type="\w+"
 
 
+def get_multicomp_combinations():
+    multicomp = config.get('multicomp', [])
+    for mc in multicomp:
+        conds = mc.split('_vs_')
+        # assume last position is overall control
+        cntrl = conds[-1]
+        comps = [f'{c1}_vs_{c2}' for c1, c2 in it.combinations(conds, r=2)]
+        comps_difference = [f'{comp1}__not__{comp2}' for comp1, comp2 in it.permutations(comps, r=2)]
+        yield from comps + comps_difference
+
+
 rule all:
     input:
         expand(
-            ['{mod_method}/{comp}.bed',
-             '{mod_method}/motif_detection/{comp}.motifs.bed',
-             'apa_results/{comp}.apa_results.bed'],
+            ['apa_results/{comp}.apa_results.bed'],
              comp=config['comparisons'],
-            mod_method=['differr', 'yanocomp']
+        ),
+        expand(
+            'yanocomp/{comp}.bed',
+            comp=config['multicomp']
         ),
         expand(
             'aligned_data/pooled/{cond}.{ref_type}.bam',
             cond=conds,
             ref_type=['genome', 'transcriptome']
+        ),
+        'figures/yanocomp/yanocomp_site_upset.svg',
+        'figures/yanocomp/yanocomp_site_effect_size.svg',
+        'markdown_reports/yanocomp_upsetplots.py.md',
+        expand(
+            ['figures/yanocomp/{comp}_yanocomp_motif_logo.svg',
+             'figures/yanocomp/{comp}_yanocomp_distrib_barplot.svg',
+             'markdown_reports/{comp}_yanocomp_logos.py.md'],
+            comp=list(get_multicomp_combinations())
         )

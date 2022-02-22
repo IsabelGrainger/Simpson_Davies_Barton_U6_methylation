@@ -1,9 +1,10 @@
 import os
 import numpy as np
 import pandas as pd
+from scipy import stats
 import matplotlib.pyplot as plt
 import matplotlib.image as mpimg
-import matplotlib_logo as logo
+from matplotlib_logo import logo
 import seaborn as sns
 
 import pysam
@@ -19,6 +20,7 @@ def rev_comp(seq):
 IUPAC = {
     'A': 'A', 'C': 'C', 'G': 'G', 'U': 'U',
     'S': 'GC', 'W': 'AU', 'R': 'AG', 'Y': 'CU',
+    'B': 'CGU', 'H': 'ACU',
     'N': 'ACGU',
 }
 
@@ -68,6 +70,23 @@ def edit_distance(seq1, seq2):
         if i != j:
             ed += 1
     return ed
+
+
+def _seq_test(seq, exp):
+    exp = IUPAC[exp]
+    return seq in exp
+
+
+def perc_seq_pos(seqs, pos, nt):
+    i = len(seqs[0]) // 2 + pos - 1
+    res = [_seq_test(s[i], nt) for s in seqs]
+    return res, np.mean(res) * 100
+
+
+def perc_seq_switch_pos(seqs_1, seqs_2, pos, nt1, nt2):
+    i = len(seqs_1[0]) // 2 + pos - 1
+    res = [_seq_test(s1[i], nt1) & _seq_test(s2[i], nt2) for s1, s2 in zip(seqs_1, seqs_2)]
+    return res, np.mean(res) * 100
 
 
 def get_donor_acceptor_seqs_from_df(df, fasta_fn, winsize=6):
@@ -201,3 +220,14 @@ def calculate_switch_nt(record, which='a5'):
     if strand == '-':
         switch = np.negative(switch)
     return switch
+
+
+def g_test_seqs(seqs_1, seqs_2):
+    freqs = np.round(
+        [
+            logo.calculate_normalised_counts(seqs_1, logo.ALPHABETS['rna']).ravel() * len(seqs_1),
+            logo.calculate_normalised_counts(seqs_2, logo.ALPHABETS['rna']).ravel() * len(seqs_2),
+        ]
+    ).astype('int')
+    freqs = freqs[:, freqs.sum(0) > 0]
+    return stats.chi2_contingency(freqs, lambda_='log-likelihood')

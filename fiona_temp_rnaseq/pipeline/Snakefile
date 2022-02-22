@@ -13,6 +13,7 @@ include: '../rules/quant.snakefile'
 include: '../rules/align.snakefile'
 include: '../rules/assemble.snakefile'
 include: '../rules/splicing.snakefile'
+include: '../rules/nb.snakefile'
 
 
 SAMPLE_NAMES = glob_wildcards('raw_data/{sample_name}.1.fastq.gz').sample_name
@@ -74,9 +75,12 @@ rule splicing:
         expand(
             ['figures/splicing/{ref_type}/temp_event_types.svg',
              'figures/splicing/{ref_type}/geno_event_types.svg',
-             'figures/splicing/{ref_type}/{event_type}_logos_and_heatmaps/'],
+             'figures/splicing/{ref_type}/gxt_ddpsi_histogram.svg',
+             'figures/splicing/{ref_type}/{event_type}_logos_and_heatmaps/',
+             'markdown_reports/psi_fit_{ref_type}.py.md',
+             'markdown_reports/{event_type}_sequence_logos_{ref_type}.py.md'],
             ref_type=['ref', 'denovo'],
-            event_type=['A5', 'SE', 'RI', 'A3']
+            event_type=['A5', 'SE', 'RI', 'A3'],
         ),
         expand(
             'figures/splicing/{ref_type}/gene_tracks/{gene_id}_gene_tracks',

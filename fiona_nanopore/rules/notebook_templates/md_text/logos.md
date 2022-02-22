@@ -1,0 +1,2 @@
+There were {n_sites:d} sites identified in the comparison {comp:s}. We flattened any overlapping sites and performed motif analysis. The motif shown below was detected at {n_motifs:d} sites.
+We also used the Araport11 annotation to measure the distribution of identified sites within genic features. The sites were found most densely in {main_feature:s}s.
