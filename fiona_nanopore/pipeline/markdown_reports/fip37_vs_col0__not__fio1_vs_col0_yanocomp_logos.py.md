@@ -2,7 +2,7 @@
 
 
 
-There were 18248 sites identified in the comparison *fip37-4* vs. Col-0 which are not found in *fio1-3* vs. Col-0. We flattened any overlapping sites and performed motif analysis. The motif shown below was detected at 5429 sites.
+There were 34578 sites identified in the comparison *fip37-4* vs. Col-0 which are not found in *fio1-3* vs. Col-0. We flattened any overlapping sites and performed motif analysis. The motif shown below was detected at 6304 sites.
 
 
 
@@ -18,6 +18,6 @@ We also used the Araport11 annotation to measure the distribution of identified 
 
 
     
-![png](fip37_vs_col0__not__fio1_vs_col0_yanocomp_logos.py_files/fip37_vs_col0__not__fio1_vs_col0_yanocomp_logos.py_5_1.png)
+![png](fip37_vs_col0__not__fio1_vs_col0_yanocomp_logos.py_files/fip37_vs_col0__not__fio1_vs_col0_yanocomp_logos.py_4_1.png)
     
 

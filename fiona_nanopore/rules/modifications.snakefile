@@ -69,8 +69,10 @@ def get_multicomp_combinations():
         # assume last position is overall control
         cntrl = conds[-1]
         comps = [f'{c1}_vs_{c2}' for c1, c2 in it.combinations(conds, r=2)]
+        comps_intersection = [f'{comp1}__and__{comp2}' for comp1, comp2 in it.permutations(comps, r=2)]
         comps_difference = [f'{comp1}__not__{comp2}' for comp1, comp2 in it.permutations(comps, r=2)]
-        yield from comps + comps_difference
+        comps_difference_miclip = [f'{comp1}__not__{comp2}__miclip' for comp1, comp2 in it.permutations(comps, r=2)]
+        yield from comps + comps_intersection + comps_difference + comps_difference_miclip
 
 
 rule generate_yanocomp_upsetplots:
@@ -198,3 +200,21 @@ rule generate_yanocomp_logos:
         notebook='notebook_processed/{comp}_yanocomp_logos.py.ipynb'
     notebook:
         'notebook_templates/yanocomp_logos.py.ipynb'
+
+
+rule generate_m6a_gene_tracks:
+    input:
+        yanocomp=expand('yanocomp/{comp}.bed', comp=config['multicomp']),
+        yanocomp_posthoc=expand('yanocomp/{comp}.posthoc.bed', comp=get_multicomp_combinations()),
+        miclip_cov=ancient(config['miclip_coverage']),
+        miclip_peaks=ancient(config['miclip_peaks']),
+        der_sites=ancient(config['der_sites']),
+        gtf=ancient(config['gtf_fn']),
+    output:
+        gene_track='figures/yanocomp/gene_tracks/{gene_id}_m6a_gene_track.svg'
+    conda:
+        'env_yamls/nb_seqlogos.yaml'
+    log:
+        notebook='notebook_processed/{gene_id}_m6a_gene_tracks.py.ipynb'
+    notebook:
+        'notebook_templates/m6a_gene_tracks.py.ipynb'

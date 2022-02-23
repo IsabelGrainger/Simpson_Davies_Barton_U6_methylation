@@ -18,6 +18,6 @@ We also used the Araport11 annotation to measure the distribution of identified 
 
 
     
-![png](fip37_vs_fio1_yanocomp_logos.py_files/fip37_vs_fio1_yanocomp_logos.py_5_1.png)
+![png](fip37_vs_fio1_yanocomp_logos.py_files/fip37_vs_fio1_yanocomp_logos.py_4_1.png)
     
 

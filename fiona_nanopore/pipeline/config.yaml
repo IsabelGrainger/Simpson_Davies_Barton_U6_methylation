@@ -1,7 +1,6 @@
 transcriptome_fasta_fn: "../annotations/Araport11_genes.201606.cdna.fasta"
 genome_fasta_fn: "../annotations/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa"
 gtf_fn: '../annotations/Araport11_GFF3_genes_transposons.201606.no_chr.gtf'
-miclip_peaks: '../annotations/miclip_peaks.bed.gz'
 
 flowcell: 'FLO-MIN106'
 kit: 'SQK-RNA002'
@@ -27,3 +26,25 @@ comparisons:
 
 multicomp:
   - 'fip37_vs_fio1_vs_col0'
+  
+# GENE TRACKS
+
+miclip_coverage:
+  - '../annotations/miclip_cov.fwd.bw'
+  - '../annotations/miclip_cov.rev.bw'
+miclip_peaks: '../annotations/miclip_peaks.bed.gz'
+der_sites: '../annotations/vir1_vs_VIRc_der_sites.bed.gz'
+
+m6a_gene_tracks:
+  - 'AT2G22540' # SVP
+  - 'AT2G45660' # SOC1
+  - 'AT2G43010' # PIF4
+  - 'AT1G02500' # MAT1
+  - 'AT4G01850' # MAT2
+  - 'AT2G36880' # MAT3
+  - 'AT3G17390' # MAT4
+
+splicing_gene_tracks:
+  - 'AT1G33410' # AtSAR1
+  - 'AT3G04910' # WNK1
+  - 'AT1G01060' # LHY

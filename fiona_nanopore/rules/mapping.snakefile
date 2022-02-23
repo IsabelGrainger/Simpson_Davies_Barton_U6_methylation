@@ -150,3 +150,27 @@ rule pool_bams:
         samtools merge -r -@ {threads} {output} {input}
         samtools index {output}
         '''
+
+
+def get_gene_track_input(wc):
+    sample_names = glob_wildcards('raw_data/{sample_name}').sample_name
+    conds = set([sn.rsplit('_', 1)[0] for sn in sample_names])
+    bams = expand('aligned_data/pooled/{cond}.genome.bam', cond=conds)
+    return {
+        'illumina_psi_fit': illumina(f'splicing/denovo/psi_fit.csv'),
+        'bams': bams,
+        'fasta': ancient(config['genome_fasta_fn']),
+    }
+
+
+rule generate_splicing_gene_tracks:
+    input:
+        unpack(get_gene_track_input)
+    output:
+        gene_tracks=directory('figures/splicing/gene_tracks/{gene_id}_splicing_gene_tracks')
+    conda:
+        'env_yamls/nb_seqlogos.yaml'
+    log:
+        notebook='notebook_processed/{gene_id}_splicing_gene_tracks.py.ipynb'
+    notebook:
+        'notebook_templates/splicing_gene_tracks.py.ipynb'

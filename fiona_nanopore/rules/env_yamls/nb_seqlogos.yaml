@@ -16,6 +16,7 @@ dependencies:
   - matplotlib=3.3.4=py36h5fab9bb_0
   - seaborn=0.11.2=hd8ed1ab_0
   - pysam=0.18.0=py36h05faf87_0
+  - pybigwig=0.3.18=py36h0c3496a_1
   - pybedtools==0.8.2=py36hb377018_1
   - pip:
     - git+git://github.com/mparker2/matplotlib_logo.git

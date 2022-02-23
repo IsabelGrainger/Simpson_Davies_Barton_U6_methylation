@@ -191,10 +191,10 @@ rule generate_gene_tracks:
     input:
         unpack(get_gene_track_input)
     output:
-        gene_tracks=directory('figures/splicing/{ref_type}/gene_tracks/{gene_id}_gene_tracks')
+        gene_tracks=directory('figures/splicing/gene_tracks/{gene_id}_gene_tracks')
     conda:
         'env_yamls/nb_seqlogos.yaml'
     log:
-        notebook='notebook_processed/{gene_id}_gene_tracks_{ref_type}.py.ipynb'
+        notebook='notebook_processed/{gene_id}_splicing_gene_tracks.py.ipynb'
     notebook:
-        'notebook_templates/gene_tracks.py.ipynb'
+        'notebook_templates/splicing_gene_tracks.py.ipynb'

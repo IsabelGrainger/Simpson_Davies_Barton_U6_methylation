@@ -1,5 +1,13 @@
 import os
 
+
+subworkflow illumina:
+    workdir:
+        '../../fiona_temp_rnaseq/pipeline'
+    configfile:
+        '../../fiona_temp_rnaseq/pipeline/config.yml'
+
+
 configfile: 'config.yaml'
 include: '../rules/basecalling.snakefile'
 include: '../rules/mapping.snakefile'
@@ -26,8 +34,10 @@ def get_multicomp_combinations():
         # assume last position is overall control
         cntrl = conds[-1]
         comps = [f'{c1}_vs_{c2}' for c1, c2 in it.combinations(conds, r=2)]
+        comps_intersection = [f'{comp1}__and__{comp2}' for comp1, comp2 in it.permutations(comps, r=2)]
         comps_difference = [f'{comp1}__not__{comp2}' for comp1, comp2 in it.permutations(comps, r=2)]
-        yield from comps + comps_difference
+        comps_difference_miclip = [f'{comp1}__not__{comp2}__miclip' for comp1, comp2 in it.permutations(comps, r=2)]
+        yield from comps + comps_intersection + comps_difference + comps_difference_miclip
 
 
 rule all:
@@ -53,4 +63,13 @@ rule all:
              'figures/yanocomp/{comp}_yanocomp_distrib_barplot.svg',
              'markdown_reports/{comp}_yanocomp_logos.py.md'],
             comp=list(get_multicomp_combinations())
+        ),
+        expand(
+            'figures/yanocomp/gene_tracks/{gene_id}_m6a_gene_track.svg',
+            gene_id=config['m6a_gene_tracks']
+        ),
+        expand(
+            'figures/splicing/gene_tracks/{gene_id}_splicing_gene_tracks',
+            gene_id=config['splicing_gene_tracks']
         )
+
