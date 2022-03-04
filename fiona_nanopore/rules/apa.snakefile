@@ -45,10 +45,11 @@ rule run_d3pendr:
     params:
         cntrl_flag=lambda wc, input: ' '.join([f'-c {fn}' for fn in input.cntrl_bams]),
         treat_flag=lambda wc, input: ' '.join([f'-t {fn}' for fn in input.treat_bams]),
+        output_prefix=lambda wc: f'apa_results/{wc.treat}_vs_{wc.cntrl}',
         bootstraps=config['d3pendr_parameters'].get('nboots', 999),
         min_read_overlap=config['d3pendr_parameters'].get('min_read_overlap', 0.2),
-        use_model='--wass-fit-gamma' if config['d3pendr_parameters'].get('use_gamma_model', True) \
-                                      else '--no-fit-gamma',
+        use_model='--use-gamma-model' if config['d3pendr_parameters'].get('use_gamma_model', True) \
+                                      else '--no-model',
     threads: 24
     conda:
         'env_yamls/d3pendr.yaml'
@@ -58,9 +59,25 @@ rule run_d3pendr:
           {params.cntrl_flag} \
           {params.treat_flag} \
           -a {input.gtf} \
-          -o {output} \
+          -o {params.output_prefix} \
           -p {threads} \
           --bootstraps {params.bootstraps} \
           --min-read-overlap {params.min_read_overlap} \
           {params.use_model}
         '''
+
+
+rule generate_d3pendr_plots:
+    input:
+        res=expand(
+            'apa_results/{comp}.apa_results.bed',
+            comp=config['comparisons']
+        )
+    output:
+        swarmplot='figures/d3pendr/d3pendr_effect_sizes.svg',
+    conda:
+        'env_yamls/nb_seqlogos.yaml'
+    log:
+        notebook='notebook_processed/d3pendr_plots.py.ipynb'
+    notebook:
+        'notebook_templates/d3pendr_plots.py.ipynb'

@@ -15,4 +15,4 @@ dependencies:
   - click
   - pip:
      - click_log
-     - -e /cluster/ggs_lab/mtparker/nanopolish_xpore_pipeline/scripts/diffmod
+     - git+git://github.com/bartongroup/yanocomp.git

@@ -58,6 +58,7 @@ rule all:
         'figures/yanocomp/yanocomp_site_upset.svg',
         'figures/yanocomp/yanocomp_site_effect_size.svg',
         'markdown_reports/yanocomp_upsetplots.py.md',
+        'figures/d3pendr/d3pendr_effect_sizes.svg',
         expand(
             ['figures/yanocomp/{comp}_yanocomp_motif_logo.svg',
              'figures/yanocomp/{comp}_yanocomp_distrib_barplot.svg',

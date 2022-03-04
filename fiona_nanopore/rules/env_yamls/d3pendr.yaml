@@ -3,14 +3,14 @@ channels:
  - conda-forge
  - bioconda
 dependencies:
- - python=3.8
- - numpy
- - scipy
- - pandas
- - statsmodels
- - click
- - joblib
- - pysam
- - pybigwig
+ - python=3.8.10=h49503c6_1_cpython
+ - numpy=1.21.1=py38h9894fe3_0
+ - scipy=1.7.0=py38h7b17777_1
+ - pandas=1.3.1=py38h1abd341_0
+ - statsmodels=0.12.2=py38h5c078b8_0
+ - click=8.0.1=py38h578d9bd_0
+ - joblib=1.0.1=pyhd8ed1ab_0
+ - pysam=0.16.0.1=py38hf7546f9_3
+ - pybigwig=0.3.18=py38h5ebd311_1
  - pip:
-   - -e /cluster/ggs_lab/mtparker/papers/fpa_rpp7/nanopore_apa_pipeline/scripts/d3pendr
+   - git+git://github.com/bartongroup/d3pendr.git
