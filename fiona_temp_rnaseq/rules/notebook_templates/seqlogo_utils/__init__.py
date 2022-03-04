@@ -89,42 +89,51 @@ def perc_seq_switch_pos(seqs_1, seqs_2, pos, nt1, nt2):
     return res, np.mean(res) * 100
 
 
+def get_alt1_alt2_pos(df):
+    alt1_alt2_donor_acceptors = {'alt1': {},
+                                 'alt2': {}}
+    for _, record in df.iterrows():
+        chrom, strand = record.chrom, record.strand
+        donor_idx = 0 if record.strand == '+' else 1
+        acceptor_idx = 1 - donor_idx
+        for alt_type in alt1_alt2_donor_acceptors:
+            try:
+                donor = (chrom, record[alt_type][donor_idx], strand)
+                acceptor = (chrom, record[alt_type][acceptor_idx], strand)
+            except TypeError:
+                assert record[alt_type] is None
+                continue
+            if 'donor' not in alt1_alt2_donor_acceptors[alt_type]:
+                alt1_alt2_donor_acceptors[alt_type]['donor'] = []
+                alt1_alt2_donor_acceptors[alt_type]['acceptor'] = []
+            alt1_alt2_donor_acceptors[alt_type]['donor'].append(donor)
+            alt1_alt2_donor_acceptors[alt_type]['acceptor'].append(acceptor)
+    return alt1_alt2_donor_acceptors
+
+
 def get_donor_acceptor_seqs_from_df(df, fasta_fn, winsize=6):
-    alt1_donor_seqs = []
-    alt1_acceptor_seqs = []
-    alt2_donor_seqs = []
-    alt2_acceptor_seqs = []
+    donor_acceptors = get_alt1_alt2_pos(df)
+    donor_acceptor_seqs = {}
     with pysam.FastaFile(fasta_fn) as fasta:
-        for _, record in df.iterrows():
-            donor_idx = 0 if record.strand == '+' else 1
-            acceptor_idx = 1 - donor_idx
-            if record.alt1 is not None:
-                alt1_donor = record.alt1[donor_idx]
-                alt1_acceptor = record.alt1[acceptor_idx]
-                alt1_donor_seq = fasta.fetch(record.chrom, alt1_donor - winsize, alt1_donor + winsize)
-                alt1_acceptor_seq = fasta.fetch(record.chrom, alt1_acceptor - winsize, alt1_acceptor + winsize)
-                if record.strand == '-':
-                    alt1_donor_seq = rev_comp(alt1_donor_seq)
-                    alt1_acceptor_seq = rev_comp(alt1_acceptor_seq)
-                alt1_donor_seqs.append(alt1_donor_seq.replace('T', 'U'))
-                alt1_acceptor_seqs.append(alt1_acceptor_seq.replace('T', 'U'))
-            else:
-                alt1_donor_seqs.append(None)
-                alt1_acceptor_seqs.append(None)
-            if record.alt2 is not None:
-                alt2_donor = record.alt2[donor_idx]
-                alt2_acceptor = record.alt2[acceptor_idx]
-                alt2_donor_seq = fasta.fetch(record.chrom, alt2_donor - winsize, alt2_donor + winsize)
-                alt2_acceptor_seq = fasta.fetch(record.chrom, alt2_acceptor - winsize, alt2_acceptor + winsize)
-                if record.strand == '-':
-                    alt2_donor_seq = rev_comp(alt2_donor_seq)
-                    alt2_acceptor_seq = rev_comp(alt2_acceptor_seq)
-                alt2_donor_seqs.append(alt2_donor_seq.replace('T', 'U'))
-                alt2_acceptor_seqs.append(alt2_acceptor_seq.replace('T', 'U'))
-            else:
-                alt2_donor_seqs.append(None)
-                alt2_acceptor_seqs.append(None)
-    return alt1_donor_seqs, alt1_acceptor_seqs, alt2_donor_seqs, alt2_acceptor_seqs
+        for alt_type in donor_acceptors:
+            donor_acceptor_seqs[alt_type] = {}
+            for ss_type in donor_acceptors[alt_type]:
+                seqs = {}
+                for chrom, pos, strand in donor_acceptors[alt_type][ss_type]:
+                    seq = fasta.fetch(chrom, pos - winsize, pos + winsize)
+                    if strand == '-':
+                        seq = rev_comp(seq)
+                    seqs[(chrom, pos, strand)] = seq.replace('T', 'U')
+                donor_acceptor_seqs[alt_type][ss_type] = seqs
+    return donor_acceptors, donor_acceptor_seqs
+
+
+def get_pairwise_seqs(pos_dict, seq_dict, which='donor'):
+    seqs = {'alt1': [], 'alt2': []}
+    for alt_type in ['alt1', 'alt2']:
+        for idx in pos_dict[alt_type][which]:
+            seqs[alt_type].append(seq_dict[alt_type][which][idx])
+    return seqs['alt1'], seqs['alt2']
 
 
 def plot_donor_acceptor_logos(seqs, seq_type='donor', title=None, ax=None):

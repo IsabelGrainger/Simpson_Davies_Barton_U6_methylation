@@ -18,7 +18,7 @@ We found that in cases where exon skipping increased in *fio1-3*, 75.6% of the 5
 
 
 
-In cases where exon inclusion increased in *fio1-3*, we found that 45.8% of 5’SSs at the 3’ end of the skipped exon had U+4, compared to only 37.3% with A+4. In comparison, 57.6% of 5’SSs upstream of the skipped exon had A+4, indicating that the relative strength of the two 5’SSs changes in *fio1-3*.
+In cases where exon inclusion increased in *fio1-3*, we found that 46.6% of 5’SSs at the 3’ end of the skipped exon had U+4, compared to only 36.2% with A+4. In comparison, 59.6% of 5’SSs upstream of the skipped exon had A+4, indicating that the relative strength of the two 5’SSs changes in *fio1-3*.
 
 
 

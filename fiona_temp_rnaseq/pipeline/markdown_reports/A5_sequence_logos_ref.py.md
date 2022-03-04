@@ -8,23 +8,12 @@ We identified 565 changes in 5’SS choice caused by loss of FIO1 function. We a
 
 
     
-![png](A5_sequence_logos_ref.py_files/A5_sequence_logos_ref.py_5_1.png)
-    
-
-
-
-Remarkably, the presence or absence of an A at the +4 position (A+4) correctly separates 73.5% of the 5’SSs exhibiting decreased and increased usage in *fio1-3*. In humans, where pairing of the 5’SS to U6 occurs before activation of the spliceosome, the 5’SS A+4 faces the m6A of the U6 snRNA ACm6AGA box in the B complex before docking of the 5’SS in the active site.
-
-
-
-
-    
 ![png](A5_sequence_logos_ref.py_files/A5_sequence_logos_ref.py_6_1.png)
     
 
 
 
-Of the 5’SSs with increased usage in *fio1-3*, 42.8% have U+4, which could make a Watson-Crick base pair with the corresponding unmethylated residue of U6 snRNA. In total, 52.2% of 5’SS changes in *fio1-3* are associated with a switch from A+4 to B+4 (A→B+4), of which 56.3% were A→U+4. In comparison, only 5.1% of alternative 5’SS pairs are reciprocal B→A+4 switches, indicating that this shift is strongly directional. A further 8.8% of alternative 5’SS pairs are S→U+4, suggesting that a Watson Crick A-U base-pair is favoured when U6 snRNA is not m6A modified. Surprisingly, 28.5% of alternative 5’SS pairs have no difference in base at the +4 position. However, of these 5’SS pairs, the majority are associated with a G→H+5 and/or H→G–1 switch that weakens interactions with the U6 snRNA ACAGA box and strengthens U5 snRNA loop 1 interactions.
+Remarkably, the presence or absence of an A at the +4 position (A+4) correctly separates 73.2% of the 5’SSs exhibiting decreased and increased usage in *fio1-3*. In humans, where pairing of the 5’SS to U6 occurs before activation of the spliceosome, the 5’SS A+4 faces the m6A of the U6 snRNA ACm6AGA box in the B complex before docking of the 5’SS in the active site.
 
 
 
@@ -35,7 +24,7 @@ Of the 5’SSs with increased usage in *fio1-3*, 42.8% have U+4, which could mak
 
 
 
-To investigate the statistically significant FIO1-dependent switches in 5’SS preference further, we interrogated the effect size (absolute ΔPSI). The largest effect sizes were associated with A→U+4. In contrast, alternative 5’SS pairs where there was an A+4→A shift had smaller effect sizes. In addition, we found that fio1-3-sensitive 5’SSs with 5’SS G+5 have larger effect sizes, but that G+5 at the alternative 5’SS has no effect, suggesting that G+5 is only deleterious in *fio1-3* when in combination with A+4.
+Of the 5’SSs with increased usage in *fio1-3*, 42.7% have U+4, which could make a Watson-Crick base pair with the corresponding unmethylated residue of U6 snRNA. In total, 52.2% of 5’SS changes in *fio1-3* are associated with a switch from A+4 to B+4 (A→B+4), of which 56.3% were A→U+4. In comparison, only 5.1% of alternative 5’SS pairs are reciprocal B→A+4 switches, indicating that this shift is strongly directional. A further 8.8% of alternative 5’SS pairs are S→U+4, suggesting that a Watson Crick A-U base-pair is favoured when U6 snRNA is not m6A modified. Surprisingly, 28.5% of alternative 5’SS pairs have no difference in base at the +4 position. However, of these 5’SS pairs, the majority are associated with a G→H+5 and/or H→G–1 switch that weakens interactions with the U6 snRNA ACAGA box and strengthens U5 snRNA loop 1 interactions.
 
 
 
@@ -46,18 +35,7 @@ To investigate the statistically significant FIO1-dependent switches in 5’SS p
 
 
 
-Finally, we found that *fio1-3*-sensitive 5’SSs with AG//GU motifs had smaller effect sizes, indicating that stronger matches to U5 snRNA loop 1 are able to suppress the effect of unfavourable U6 snRNA interactions in *fio1-3*.
-
-
-
-
-    
-![png](A5_sequence_logos_ref.py_files/A5_sequence_logos_ref.py_8_3.png)
-    
-
-
-
-We next asked whether there was directionality to shifts in splice site choice in *fio1-3*. Alternative 5’SSs were almost equally likely to be selected either upstream or downstream. We detected many examples of 5’SS shifts of exactly -4 nt, +4 nt, and +5 nt. Notably, in +5 nt switches, 5’SSs with the strong U6 snRNA ACAGA recognition sequence //GURAGGU can become strong U5 snRNA loop 1 5’SSs with the sequence GURAG//GU, suggesting that overlaps in the registers of consensus sequences for U5 and U6 snRNA interactions could facilitate alternative splicing.
+To investigate the statistically significant FIO1-dependent switches in 5’SS preference further, we interrogated the effect size (absolute ΔPSI). The largest effect sizes were associated with A→U+4. In contrast, alternative 5’SS pairs where there was an A+4→A shift had smaller effect sizes. In addition, we found that fio1-3-sensitive 5’SSs with 5’SS G+5 have larger effect sizes, but that G+5 at the alternative 5’SS has no effect, suggesting that G+5 is only deleterious in *fio1-3* when in combination with A+4.
 
 
 
@@ -68,8 +46,30 @@ We next asked whether there was directionality to shifts in splice site choice i
 
 
 
+Finally, we found that *fio1-3*-sensitive 5’SSs with AG//GU motifs had smaller effect sizes, indicating that stronger matches to U5 snRNA loop 1 are able to suppress the effect of unfavourable U6 snRNA interactions in *fio1-3*.
+
+
+
+
     
-![png](A5_sequence_logos_ref.py_files/A5_sequence_logos_ref.py_9_2.png)
+![png](A5_sequence_logos_ref.py_files/A5_sequence_logos_ref.py_9_3.png)
+    
+
+
+
+We next asked whether there was directionality to shifts in splice site choice in *fio1-3*. Alternative 5’SSs were almost equally likely to be selected either upstream or downstream. We detected many examples of 5’SS shifts of exactly -4 nt, +4 nt, and +5 nt. Notably, in +5 nt switches, 5’SSs with the strong U6 snRNA ACAGA recognition sequence //GURAGGU can become strong U5 snRNA loop 1 5’SSs with the sequence GURAG//GU, suggesting that overlaps in the registers of consensus sequences for U5 and U6 snRNA interactions could facilitate alternative splicing.
+
+
+
+
+    
+![png](A5_sequence_logos_ref.py_files/A5_sequence_logos_ref.py_10_1.png)
+    
+
+
+
+    
+![png](A5_sequence_logos_ref.py_files/A5_sequence_logos_ref.py_10_2.png)
     
 
 
@@ -81,6 +81,6 @@ We analysed the temperature-dependent shifts in splice site choice in the Col-0 
 
 
     
-![png](A5_sequence_logos_ref.py_files/A5_sequence_logos_ref.py_11_1.png)
+![png](A5_sequence_logos_ref.py_files/A5_sequence_logos_ref.py_12_1.png)
     
 

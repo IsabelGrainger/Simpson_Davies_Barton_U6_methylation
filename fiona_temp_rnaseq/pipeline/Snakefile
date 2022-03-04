@@ -76,6 +76,7 @@ rule splicing:
             ['figures/splicing/{ref_type}/temp_event_types.svg',
              'figures/splicing/{ref_type}/geno_event_types.svg',
              'figures/splicing/{ref_type}/gxt_ddpsi_histogram.svg',
+             'figures/splicing/{ref_type}/splice_event_upset.pdf',
              'figures/splicing/{ref_type}/{event_type}_logos_and_heatmaps/',
              'markdown_reports/psi_fit_{ref_type}.py.md',
              'markdown_reports/{event_type}_sequence_logos_{ref_type}.py.md'],

@@ -151,7 +151,8 @@ rule linear_model_psi:
         psi_fit='splicing/{ref_type}/psi_fit.csv',
         event_type_temp_plot='figures/splicing/{ref_type}/temp_event_types.svg',
         event_type_geno_plot='figures/splicing/{ref_type}/geno_event_types.svg',
-        gxt_ddpsi_histogram='figures/splicing/{ref_type}/gxt_ddpsi_histogram.svg'
+        gxt_ddpsi_histogram='figures/splicing/{ref_type}/gxt_ddpsi_histogram.svg',
+        splice_event_upset='figures/splicing/{ref_type}/splice_event_upset.pdf',
     conda:
         'env_yamls/nb_statsmodels.yaml'
     threads: 16

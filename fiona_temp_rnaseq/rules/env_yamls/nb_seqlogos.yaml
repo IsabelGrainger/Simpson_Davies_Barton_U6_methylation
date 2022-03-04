@@ -19,3 +19,4 @@ dependencies:
   - pybigwig=0.3.18=py36h0c3496a_1
   - pip:
     - git+git://github.com/mparker2/matplotlib_logo.git
+    - upsetplot
