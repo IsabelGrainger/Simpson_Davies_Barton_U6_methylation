@@ -1,0 +1,17 @@
+genomes:
+  athaliana:
+    genome_fasta_fn: '../annotations/Arabidopsis_thaliana.TAIR10.dna.toplevel.fa'
+    gtf_fn: '../annotations/Araport11_GFF3_genes_transposons.201606.no_chr.gtf'
+  hsapiens:
+    genome_fasta_fn: '../annotations/Homo_sapiens.GRCh38.dna_sm.primary_assembly.fa'
+    gtf_fn: '../annotations/Homo_sapiens.GRCh38.98.gtf'
+  celegans:
+    genome_fasta_fn: '../annotations/Caenorhabditis_elegans.WBcel235.dna.toplevel.fa'
+    gtf_fn: '../annotations/Caenorhabditis_elegans.WBcel235.104.gtf'
+  dmelanogaster:
+    genome_fasta_fn: '../annotations/Drosophila_melanogaster.BDGP6.32.dna.toplevel.fa'
+    gtf_fn: '../annotations/Drosophila_melanogaster.BDGP6.32.104.gtf'
+  drerio:
+    genome_fasta_fn: '../annotations/Danio_rerio.GRCz11.dna.toplevel.fa'
+    gtf_fn: '../annotations/Danio_rerio.GRCz11.104.gtf'
+  

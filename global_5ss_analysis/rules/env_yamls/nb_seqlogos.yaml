@@ -1,0 +1,22 @@
+name: nb_seqlogos
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.6.7=h357f687_1006
+  - pip=21.3.1=pyhd8ed1ab_0
+  - git=2.35.0=pl5321hc30692c_0
+  - jupyter=1.0.0=py36h5fab9bb_6
+  - nb_conda_kernels=2.3.1=py36h5fab9bb_0
+  - jupyterlab_code_formatter=1.4.10=pyhd8ed1ab_1
+  - numpy=1.19.5=py36hfc0c790_2
+  - pandas=1.1.5=py36h284efc9_0
+  - scipy=1.5.3=py36h81d768a_1
+  - statsmodels=0.12.2=py36he33b4a0_0
+  - matplotlib=3.3.4=py36h5fab9bb_0
+  - seaborn=0.11.2=hd8ed1ab_0
+  - pysam=0.18.0=py36h05faf87_0
+  - pybigwig=0.3.18=py36h0c3496a_1
+  - pip:
+    - git+git://github.com/mparker2/matplotlib_logo.git
+    - upsetplot

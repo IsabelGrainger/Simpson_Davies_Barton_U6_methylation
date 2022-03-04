@@ -1,0 +1,11 @@
+configfile: 'config.yaml'
+
+
+include: '../rules/nb.snakefile'
+
+rule all:
+    input:
+        expand(
+            rules.generate_splice_site_logos.output,
+            organism=config['genomes'],
+        )
