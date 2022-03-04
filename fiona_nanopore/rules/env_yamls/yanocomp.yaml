@@ -1,18 +1,20 @@
-name: nanopolish_diffmod
+name: yanocomp
 channels:
   - conda-forge
-  - bioconda
 dependencies:
-  - numpy
-  - scipy
-  - pandas>=1.1
-  - xarray>=0.16
-  - numexpr
-  - statsmodels
-  - pomegranate>=0.13.3
-  - scikit-learn
-  - h5py=2.10.0
-  - click
+  - python=3.8.5=h1103e12_7_cpython
+  - pip=20.2.3=py_0
+  - git=2.35.0=pl5321hc30692c_0
+  - numpy=1.19.1=py38hbc27379_2
+  - scipy=1.5.2=py38h8c5af15_0
+  - pandas=1.1.2=py38h950e882_0
+  - numexpr=2.7.1=py38hcb8c335_1
+  - statsmodels=0.12.0=py38h1e0a361_0
+  - pomegranate=0.13.3=py38hbf85e49_0
+  - scikit-learn=0.23.2=py38hee58b96_0
+  - h5py=2.10.0=nompi_py38hfb01d0b_104
+  - hdf5=1.10.6=nompi_h3c11f04_101
+  - click=7.1.2=pyh9f0ad1d_0
   - pip:
      - click_log
-     - git+git://github.com/bartongroup/yanocomp.git
+     - git+git://github.com/bartongroup/yanocomp.git@n-sample
