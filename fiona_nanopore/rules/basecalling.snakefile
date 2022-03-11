@@ -98,3 +98,29 @@ rule rna_to_dna:
         'env_yamls/seqkit.yaml'
     shell:
         "cat {input} | seqkit seq --rna2dna > {output}"
+
+
+rule archive_fast5s:
+    input:
+        data='raw_data/{sample_name}'
+    output:
+        archive='fast5_archives/{sample_name}.tar.gz'
+    shell:
+        '''
+        OUTPUT=$(readlink -f {output.archive})
+        cp -L --parents `find raw_data/{wildcards.sample_name}/ -name '*.fast5'` $TMPDIR
+        cd $TMPDIR
+        tar -cvzf {wildcards.sample_name}.tar.gz {input.data}
+        mv {wildcards.sample_name}.tar.gz $OUTPUT
+        '''
+
+
+rule md5_fast5:
+    input:
+        data='fast5_archives/{sample_name}.tar.gz'
+    output:
+        md5='fast5_archives/{sample_name}.tar.gz.md5'
+    shell:
+        '''
+        md5sum {input.data} > {output.md5}
+        '''

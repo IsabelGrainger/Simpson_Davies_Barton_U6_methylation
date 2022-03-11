@@ -72,5 +72,10 @@ rule all:
         expand(
             'figures/splicing/gene_tracks/{gene_id}_splicing_gene_tracks',
             gene_id=config['splicing_gene_tracks']
-        )
+        ),
+#        expand(
+#            ['fast5_archives/{sample_name}.tar.gz',
+#             'fast5_archives/{sample_name}.tar.gz.md5'],
+#            sample_name=sample_names
+#        )
 

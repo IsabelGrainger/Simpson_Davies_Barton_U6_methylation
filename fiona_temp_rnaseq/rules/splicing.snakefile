@@ -165,6 +165,7 @@ rule linear_model_psi:
 rule generate_logos_and_heatmaps:
     input:
         psi_fit='splicing/{ref_type}/psi_fit.csv',
+        psi='splicing/{ref_type}/psi.csv',
         genome_fasta_fn=ancient(config['genome_fasta_fn'])
     output:
         splice_plots=directory('figures/splicing/{ref_type}/{event_type}_logos_and_heatmaps/'),
