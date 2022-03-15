@@ -69,7 +69,7 @@ rule splicing:
             event_type=['SE', 'A3', 'A5', 'MX', 'RI', 'AF', 'AL']
         ),
         expand(
-            ['splicing/denovo/{comp}_NMD.dpsi'],
+            'splicing/denovo/{comp}_NMD.dpsi',
             comp=config['suppa_comparisons']
         ),
         expand(
